@@ -2,6 +2,17 @@
 
 Run a fully local AI stack with a clean web interface, local LLMs, and private web search — all in Docker.
 
+![Docker](https://img.shields.io/badge/docker-ready-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+
+---
+
+## 📸 Preview
+
+<!-- Add screenshots in /assets folder -->
+
+![Open WebUI](./assets/webui.png)
+
 ---
 
 ## ✨ Features
@@ -26,56 +37,29 @@ cd aistack
 
 ---
 
-### 2. Start the stack
+### 2. Configure (optional but recommended)
+
+```bash
+cp .env.example .env
+```
+
+---
+
+### 3. Start the stack
+
+#### 🟢 CPU (default)
 
 ```bash
 docker compose up -d
 ```
 
----
-
-### 3. Open Web UI
-
-Open in your browser:
-
-```
-http://localhost:3000
-```
-
----
-
-### 4. Download your first model
-
-```bash
-docker exec -it ollama ollama pull phi3
-```
-
----
-
-## 🧩 GPU Support
-
-### 🟢 CPU (default)
-
-```bash
-docker compose up -d
-```
-
----
-
-### 🟢 NVIDIA (CUDA)
-
-Requirements:
-
-* NVIDIA GPU
-* NVIDIA Container Toolkit
+#### 🟢 NVIDIA (CUDA)
 
 ```bash
 docker compose -f docker-compose.yml -f docker-compose.nvidia.yml up -d
 ```
 
----
-
-### 🟢 AMD / Intel iGPU
+#### 🟢 AMD / Intel iGPU
 
 ```bash
 docker compose -f docker-compose.yml -f docker-compose.amd.yml up -d
@@ -83,7 +67,23 @@ docker compose -f docker-compose.yml -f docker-compose.amd.yml up -d
 
 ---
 
-### 🍎 macOS
+### 4. Open Web UI
+
+```
+http://localhost:3000
+```
+
+---
+
+### 5. Download your first model
+
+```bash
+docker exec -it ollama ollama pull phi3
+```
+
+---
+
+## 🍎 macOS Setup
 
 Docker cannot access GPU on macOS — run Ollama natively:
 
@@ -202,12 +202,27 @@ SEARXNG_PORT=8888
 
 ---
 
-## 🔒 Security Notes
+## 🔐 Security
 
 * Your UI is accessible to anyone on your local network
+* Do NOT expose ports (3000/11434) publicly
 * Enable authentication inside Open WebUI
-* Avoid exposing ports directly to the internet
 * Prefer Tailscale for remote access
+
+---
+
+## ⚠️ Known Limitations
+
+* AMD GPU support depends on ROCm compatibility
+* macOS does not support GPU acceleration in Docker
+* Large models (>7B) may be slow on 8GB VRAM systems
+
+---
+
+## 💡 First Run Tip
+
+The first response may be slow because the model is loading into memory.
+Subsequent responses will be significantly faster.
 
 ---
 
@@ -219,15 +234,11 @@ SEARXNG_PORT=8888
 docker compose logs -f
 ```
 
----
-
 ### Port already in use
 
 ```bash
 sudo lsof -i :3000
 ```
-
----
 
 ### Reset everything
 
@@ -246,6 +257,11 @@ aistack/
 ├── docker-compose.amd.yml
 ├── .env.example
 ├── docs/
+│   ├── setup.md
+│   ├── usage.md
+│   ├── remote-access.md
+│   ├── troubleshooting.md
+│   └── performance.md
 └── searxng/
 ```
 
