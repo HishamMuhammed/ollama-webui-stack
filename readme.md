@@ -1,4 +1,3 @@
-Here’s your **updated README** with the cross-platform port fix cleanly integrated into the *Troubleshooting* section 👇
 
 ---
 
