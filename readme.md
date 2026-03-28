@@ -69,6 +69,30 @@ docker compose -f docker-compose.yml -f docker-compose.nvidia.yml up -d
 docker compose -f docker-compose.yml -f docker-compose.amd.yml up -d
 ```
 
+### ⚠️ AMD GPU Configuration (ROCm)
+
+If your GPU is not officially supported, you can override values:
+
+#### 🔹 RX 6000 series (RDNA2)
+HSA_OVERRIDE_GFX_VERSION=10.3.0  
+HCC_AMDGPU_TARGET=gfx1030  
+
+#### 🔹 RX 7000 series (RDNA3)
+HSA_OVERRIDE_GFX_VERSION=11.0.0  
+HCC_AMDGPU_TARGET=gfx1100  
+
+#### 🔹 Older GPUs (experimental)
+HSA_OVERRIDE_GFX_VERSION=9.0.0  
+HCC_AMDGPU_TARGET=gfx900  
+
+
+### 🔍 Find your GPU target
+
+Run:
+
+```bash
+rocminfo | grep gfx
+```
 ---
 
 ### 4. Open Web UI
