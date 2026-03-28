@@ -350,11 +350,50 @@ sudo systemctl restart docker
 
 ---
 
-### Reset everything
+### 🔄 Reset vs Nuke
+
+#### 🧹 Reset (keep images, remove data)
+
+Removes containers and volumes (chat history, models, etc):
 
 ```bash
 docker compose down -v
 ```
+
+---
+
+#### 💥 Full Nuke (factory reset)
+
+⚠️ This will remove EVERYTHING related to the stack:
+
+* containers
+* volumes
+* images
+* networks
+* build cache
+
+```bash
+docker compose down -v --rmi all --remove-orphans
+docker system prune -a --volumes -f
+```
+
+---
+
+#### 🧠 When to use what?
+
+| Situation                        | Command   |
+| -------------------------------- | --------- |
+| Something broke                  | Reset     |
+| Want clean reinstall             | Reset     |
+| Disk full / Docker messy         | Full Nuke |
+| Changing GPU configs drastically | Full Nuke |
+
+
+
+
+> ⚠️ The "Full Nuke" command removes ALL unused Docker data on your system, not just this project.
+
+
 
 ---
 
