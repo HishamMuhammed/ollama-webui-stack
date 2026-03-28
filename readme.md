@@ -313,6 +313,17 @@ After resolving the conflict, restart:
 ```bash
 docker compose up -d
 ```
+---
+### ❌ Containers cannot access internet (Linux)
+
+Error:
+Temporary failure resolving / network is unreachable
+
+Fix (firewalld):
+
+sudo firewall-cmd --add-masquerade --permanent
+sudo firewall-cmd --reload
+sudo systemctl restart docker
 
 ---
 
