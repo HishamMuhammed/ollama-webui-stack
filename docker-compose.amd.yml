@@ -1,5 +1,6 @@
 services:
   ollama:
+    image: ollama/ollama:rocm
     devices:
       - /dev/kfd
       - /dev/dri
@@ -7,3 +8,4 @@ services:
       - video
     environment:
       - HSA_OVERRIDE_GFX_VERSION=10.3.0
+      - HCC_AMDGPU_TARGET=gfx1030
