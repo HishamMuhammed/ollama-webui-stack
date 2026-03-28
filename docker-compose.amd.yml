@@ -1,4 +1,9 @@
 services:
   ollama:
     devices:
-      - /dev/dri:/dev/dri
+      - /dev/kfd
+      - /dev/dri
+    group_add:
+      - video
+    environment:
+      - HSA_OVERRIDE_GFX_VERSION=10.3.0
