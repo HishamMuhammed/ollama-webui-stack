@@ -1,3 +1,7 @@
+Here’s your **updated README** with the cross-platform port fix cleanly integrated into the *Troubleshooting* section 👇
+
+---
+
 # 🧠 AI Stack (Ollama + Open WebUI + SearXNG)
 
 Run a fully local AI stack with a clean web interface, local LLMs, and private web search — all in Docker.
@@ -102,10 +106,10 @@ docker compose up -d open-webui searxng
 
 ## 🌐 Services
 
-| Service    | URL                   |
-| ---------- | --------------------- |
-| Open WebUI | http://localhost:3000 |
-| SearXNG    | http://localhost:8888 |
+| Service    | URL                                            |
+| ---------- | ---------------------------------------------- |
+| Open WebUI | [http://localhost:3000](http://localhost:3000) |
+| SearXNG    | [http://localhost:8888](http://localhost:8888) |
 
 ---
 
@@ -234,11 +238,83 @@ Subsequent responses will be significantly faster.
 docker compose logs -f
 ```
 
-### Port already in use
+---
+
+### ⚠️ Port Already in Use (Ollama Conflict)
+
+If you encounter an error like:
+
+```
+failed to bind port 11434: address already in use
+```
+
+This usually means Ollama is already running on your system.
+
+---
+
+#### 🔍 Check what’s using the port
+
+**Linux / macOS**
 
 ```bash
-sudo lsof -i :3000
+lsof -i :11434
 ```
+
+**Windows (PowerShell)**
+
+```powershell
+netstat -ano | findstr :11434
+```
+
+---
+
+#### 🛑 Stop or kill the process
+
+**Linux (system service)**
+
+```bash
+sudo systemctl stop ollama
+sudo systemctl disable ollama
+```
+
+**Linux (quick fix)**
+
+```bash
+sudo fuser -k 11434/tcp
+```
+
+**macOS**
+
+```bash
+kill -9 $(lsof -t -i:11434)
+```
+
+**Windows (PowerShell)**
+
+```powershell
+taskkill /PID <PID> /F
+```
+
+---
+
+#### 💡 Alternative (recommended)
+
+Instead of stopping Ollama, change the port in `docker-compose.yml`:
+
+```yaml
+ports:
+  - "11435:11434"
+```
+
+---
+
+After resolving the conflict, restart:
+
+```bash
+docker compose up -d
+```
+
+---
 
 ### Reset everything
 
@@ -313,3 +389,11 @@ Feel free to open issues, suggest improvements, or fork the project.
 ## 📜 License
 
 MIT License
+
+---
+
+If you want, next we can:
+
+* fix that `version` warning
+* make ports configurable via `.env`
+* or give this README a 🔥 “top GitHub project” polish (badges, gifs, sections, etc.)
