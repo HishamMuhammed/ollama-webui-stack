@@ -69,9 +69,25 @@ docker compose -f docker-compose.yml -f docker-compose.nvidia.yml up -d
 docker compose -f docker-compose.yml -f docker-compose.amd.yml up -d
 ```
 
+---
+
+### 4. Open Web UI
+
+```
+http://localhost:3000
+```
+
+---
+
+### 5. Download your first model
+
+```bash
+docker exec -it ollama ollama pull phi3
+```
+
 ### ⚠️ AMD GPU Configuration (ROCm)
 
-If your GPU is not officially supported, you can override values:
+If your GPU is not officially supported, you can override values in the .env file:
 
 #### 🔹 RX 6000 series (RDNA2)
 HSA_OVERRIDE_GFX_VERSION=10.3.0  
@@ -93,22 +109,6 @@ Run:
 ```bash
 rocminfo | grep gfx
 ```
----
-
-### 4. Open Web UI
-
-```
-http://localhost:3000
-```
-
----
-
-### 5. Download your first model
-
-```bash
-docker exec -it ollama ollama pull phi3
-```
-
 ---
 
 ## 🍎 macOS Setup
